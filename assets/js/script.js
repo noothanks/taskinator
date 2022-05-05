@@ -104,23 +104,46 @@ var createTaskActions = function(taskId) {
 formEl.addEventListener("submit", taskFormHandler);
 //creating task button handler
 var taskButtonHandler = function(event) {
-    
-    if (event.target.matches(".delete-btn")) {
-        console.log(event.target);
-        //get element's task id
-        var taskId = event.target.getAttribute("data-task-id");
-        console.log(taskId);
-    }
+    //get target element from event
+    var targetEl = event.target;
 
-    if (event.target.matches(".delete-btn")) {
-        var taskId = event.target.getAttribute("data-task-id");
+    //edit button click
+    if (targetEl.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        editTask(taskId);
+    }
+    //delete button click
+    else if (targetEl.matches(".delete-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
         deleteTask(taskId);
     }
   };
 pageContentEl.addEventListener("click", taskButtonHandler);
 
+//new editing function
+var editTask = function(taskId) {
+    console.log("editing task #" + taskId);
+
+    //get list item element
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId +"']");
+
+    //get content from list item
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+
+    //getting value for selected elements and storing to proper variable
+    document.querySelector("input[name='task-name']").value = taskName;
+    document.querySelector("select[name='task-type']").value = taskType;
+
+    //changing submit button to "save task"
+    document.querySelector("#save-task").textContent = "Save Task";
+
+    //will add taskId to attribute on the form
+    formEl.setAttribute("data-task-id", taskId);
+};
 //delete task function
 var deleteTask = function(taskId) {
-    var taskSelected = document.querySelector(".task-item[data-task-id = '" + taskId + "']");
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
 };
