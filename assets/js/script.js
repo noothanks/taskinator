@@ -59,7 +59,6 @@ var createTaskEl = function(taskDataObj) {
   taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
   listItemEl.appendChild(taskInfoEl);
 
-  console.dir(listItemEl);
 
   //storing task actions in variable
   var taskActionsEl = createTaskActions(taskIdCounter);
@@ -201,7 +200,9 @@ var taskStatusChangeHandler = function(event) {
         tasksCompleted.appendChild(taskSelected);
     }
 };
-//event listeners
+//new task and form submit
 formEl.addEventListener("submit", taskFormHandler);
+//listen for edit and delete event
 pageContentEl.addEventListener("click", taskButtonHandler);
+//listen for change event
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
